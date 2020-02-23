@@ -1,5 +1,45 @@
-- name: Create Homework Assignment project 
+- name: Upgrade pip
+  pip:
+    name: pip
+    state: latest
+
+- name: Install virtualenv
+  pip:
+    name: virtualenv
+    state: latest
+
+- name: Create SCM credential
+  tower_credential:
+    name: "{{scm_credential_name}}"
+    organization: "{{org_name}}"
+    state: present
+    kind: scm
+    username: "{{scm_username}}"
+    ssh_key_data: "{{ lookup('file','/root/.ssh/rd_git_key1') }}"
+
 # Use tower module or tower-cli to create Ansible Tower project. Name of the project is specifed in ./vars/main.yml
+- name: Create Homework Assignment project 
+  tower_project:
+    name: "{{proj_name}}"
+    description: "Homework Assignment project"
+    organization: "{{org_name}}"
+    scm_type: git
+    scm_url: "{{scm_url}}"
+    scm_credential: "{{scm_credential_name}}"
+    scm_branch: "{{scm_branch}}"
+    state: present
+
+- name: Read openstack.pem
+  set_fact:
+    openstack_priv_key: "{{lookup('file','/root/.ssh/openstack.pem')}}"
+
+- name: Cleanup openstack.pem contents
+  set_fact:
+    os_priv_key: "{{openstack_priv_key | replace('# BEGIN ANSIBLE MANAGED BLOCK', '') | replace('# END ANSIBLE MANAGED BLOCK', '') }}"
+
+- name: Print openstack.pem contents
+  debug:
+    msg: "{{os_priv_key}}"
 
 - name: Machine Credentail to connect to workstation using openstack.pub
   tower_credential:
@@ -10,7 +50,8 @@
     tower_host: tower1.{{tower_GUID}}.example.opentlc.com
     tower_username: admin
     tower_password: r3dh4t1!
-    ssh_key_data: "/root/.ssh/openstack.pem"
+#    ssh_key_data: "/root/.ssh/openstack.pem"
+    ssh_key_data: "{{os_priv_key}}"
     username: cloud-user
 
 - name: Create Inventory
@@ -40,7 +81,8 @@
     tower_username: admin
     tower_password: r3dh4t1!
     tower_verify_ssl: no
-    ssh_key_data: /root/.ssh/mykey.pem
+#    ssh_key_data: /root/.ssh/mykey.pem
+    ssh_key_data: "{{os_priv_key}}"
     username: "{{ opentlc_login }}"
 
 - name: Remove secret

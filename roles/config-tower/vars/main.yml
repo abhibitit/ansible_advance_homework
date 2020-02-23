@@ -1,9 +1,13 @@
 ---
 # vars file for roles/config-tower
+roles_dir: /root/homework/ansible_advance_homework/
 org_name: Default 
 scm_branch: master 
 scm_url: "{{ github_repo }}"
 proj_name: "Homework Assignment"
+scm_username: rajdurvasula
+scm_credential_name: rd_git_key
+scm_key_path: /root/.ssh/rd_git_key1
 user_name: admin 
 password: r3dh4t1!
 ssh_cred_name: "Connect_to_workstation"
