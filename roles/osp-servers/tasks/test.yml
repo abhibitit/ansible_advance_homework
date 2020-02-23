@@ -1,0 +1,31 @@
+---
+- name: Get Server Info
+  os_server_info:
+    cloud: "{{cloud_name}}"
+    server: "{{ item.value | json_query('name') }}"
+    filters:
+      vm_state: active
+  loop: "{{osp_servers|dict2items}}"
+  register: server_status
+
+#- name: Print server_status
+#  debug:
+#    msg: "{{server_status}}"
+
+- name: Get IPv4 addresses
+  set_fact:
+    server_ips: "{{ server_status | json_query(ipv4_query) }}"
+  vars:
+    ipv4_query: "results[].openstack_servers[].accessIPv4"
+
+- name: Print server_ips
+  debug:
+    msg: "{{server_ips}}"
+
+- name: Wait for connection to server instances
+  wait_for:
+    host: "{{item}}"
+    delay: 10
+    port: 22
+  loop: "{{server_ips}}"
+

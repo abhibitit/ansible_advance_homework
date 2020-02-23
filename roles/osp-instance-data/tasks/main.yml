@@ -1,0 +1,38 @@
+---
+# tasks file for osp-instance-data
+#
+# Build in-memory inventory
+#
+
+- name: Get Server Facts
+  os_server_facts:
+    cloud: "{{cloud_name}}"
+  register: server_facts
+
+- name: Add In-memory Host
+  add_host:
+    name: "{{item.public_v4}}"
+    group: "{{item.metadata.group}}"
+  with_items: "{{server_facts.ansible_facts.openstack_servers}}"
+
+- name: Add In-memory Host Group
+  add_host:
+    name: "{{item.public_v4}}"
+    group: "{{item.metadata.deployment_name}}"
+  with_items: "{{server_facts.ansible_facts.openstack_servers}}"
+
+- name: Print In-memory Hosts
+  debug:
+    msg: "{{item}}"
+  with_items:
+    - "{{groups['apps']}}"
+    - "{{groups['appdbs']}}"
+    - "{{groups['frontends']}}"
+
+- name: Copy cloud-user key to workstation
+  copy:
+    src: "{{user_cred_path}}"
+    dest: "/home/{{user_cred_name}}/.ssh/"
+    owner: "{{user_cred_name}}"
+    group: "{{user_cred_name}}"
+    mode: 0400

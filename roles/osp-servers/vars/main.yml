@@ -37,3 +37,8 @@ osp_servers:
     security_group: db
     meta:
       - { group: appdbs, deployment_name: QA}
+
+int_network: int_network
+ext_network: ext_network
+cloud_name: ospcloud
+

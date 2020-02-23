@@ -1,2 +1,24 @@
 ---
 # tasks file for app-tier
+#
+# Purpose: Install, configure Apache Tomcat server
+#
+
+- name: Include Install Task
+  include: install.yml
+
+- name: Include Task to install Apache Ant
+  include: install_ant.yml
+
+- name: Include Task to install Tomcat Deployer
+  include: install_deployer.yml
+
+- name: Include task to configure tomcat
+  include: config.yml
+
+- name: Include task to configure tomcat access
+  include: config_access.yml
+
+- name: Include task to install PostgreSQL JDBC driver
+  include: install_dbclient.yml
+

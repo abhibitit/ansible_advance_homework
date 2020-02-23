@@ -1,10 +1,70 @@
 ---
-
 # tasks file for osp.servers
-- name: Create new server instances and attaches them a network and passes metadata to the instance
+#
+# purpose:
+# - Create RHOSP server instances
+#
 
+- name: Create new server instances and attaches them a network and passes metadata to the instance
+  os_server:
+    name: "{{ item.value | json_query('name') }}"
+    flavor: "{{ item.value | json_query('flavor') }}"
+    image: "{{ item.value | json_query('image') }}"
+    key_name: "{{ item.value | json_query('key_name') }}"
+    security_groups: "{{ item.value | json_query('security_group') }}"
+    network: "{{int_network}}"
+    meta: "group={{ item.value | json_query('meta[].group') | first }},deployment_name={{ item.value | json_query('meta[].deployment_name') | first }}"
+    userdata: |
+      #!/bin/bash
+      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+      curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
+      cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
+  loop: "{{osp_servers|dict2items}}"
 
 - name: Add floating IP to Servers
-   
+  os_floating_ip:
+    cloud: "{{cloud_name}}"
+    state: present
+    reuse: yes
+    server: "{{ item.value | json_query('name') }}"
+    network: "{{ext_network}}"
+    wait: true
+    timeout: 60
+  loop: "{{osp_servers|dict2items}}"
 
-- name: Wait for server to be available
+- name: Get Server Info
+  os_server_info:
+    cloud: "{{cloud_name}}"
+    server: "{{ item.value | json_query('name') }}"
+    filters:
+      vm_state: active
+  loop: "{{osp_servers|dict2items}}"
+  register: server_status
+
+- name: Get Server Info
+  os_server_info:
+    cloud: "{{cloud_name}}"
+    server: "{{ item.value | json_query('name') }}"
+    filters:
+      vm_state: active
+  loop: "{{osp_servers|dict2items}}"
+  register: server_status
+
+- name: Get IPv4 addresses
+  set_fact:
+    server_ips: "{{ server_status | json_query(ipv4_query) }}"
+  vars:
+    ipv4_query: "results[].openstack_servers[].accessIPv4"
+
+- name: Print server_ips
+  debug:
+    msg: "{{server_ips}}"
+
+- name: Wait for servers to be available
+  wait_for:
+    host: "{{item}}"
+    delay: 10
+    port: 22
+  loop: "{{server_ips}}"
+

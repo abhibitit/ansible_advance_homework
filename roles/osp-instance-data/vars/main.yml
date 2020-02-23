@@ -1,0 +1,6 @@
+---
+# vars file for osp-instance-data
+
+user_cred_name: "cloud-user"
+user_cred_path: "/root/.ssh/openstack.pem"
+

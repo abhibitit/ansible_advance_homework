@@ -1,2 +1,13 @@
 ---
 # handlers file for app-tier
+#
+
+- name: enable_tomcat
+  service:
+    name: tomcat
+    enabled: yes
+
+- name: start_tomcat
+  service:
+    name: tomcat
+    state: started

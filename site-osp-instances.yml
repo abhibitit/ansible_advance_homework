@@ -1,4 +1,12 @@
-- hosts: workstation
+#
+# Playbook to setup OSP instances
+#
+
+- name: Playbook to setup OSP instances
+#- hosts: workstation
+  hosts: jumpbox
   become: yes
   roles:
-    - osp-servers
+#    - osp-servers
+    - { role: osp-servers, }
+

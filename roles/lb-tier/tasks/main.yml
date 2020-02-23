@@ -1,2 +1,17 @@
 ---
 # tasks file for lb-tier
+#
+# Purpose: Install, configure HAProxy
+#
+
+- name: install HAProxy
+  package:
+    name: haproxy
+    state: latest
+
+- name: configure HAProxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify:
+    - start_enable_haproxy

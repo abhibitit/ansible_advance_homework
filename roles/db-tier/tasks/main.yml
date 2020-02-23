@@ -1,2 +1,9 @@
 ---
 # tasks file for db-tier
+#
+# Purpose: Install, configure PostgreSQL Database
+#
+
+- name: Include Task to setup PostgreSQL DB
+  include: install_postgres.yml
+
