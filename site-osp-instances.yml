@@ -3,8 +3,8 @@
 #
 
 - name: Playbook to setup OSP instances
-#- hosts: workstation
-  hosts: jumpbox
+  hosts: workstation
+#  hosts: jumpbox
   become: yes
   roles:
 #    - osp-servers
