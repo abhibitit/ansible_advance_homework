@@ -4,11 +4,15 @@
 # Purpose: Install common OS packages on servers
 #
 
-- name: enable yum repos
-  copy:
-    src: files/open_three-tier-app.repo
-    dest: /etc/yum.repos.d/open_three-tier-app.repo
-    mode: 0644
+- name: Base Config tasks
+  debug:
+    msg: "No base config tasks"
+
+#- name: enable yum repos
+#  copy:
+#    src: files/open_three-tier-app.repo
+#    dest: /etc/yum.repos.d/open_three-tier-app.repo
+#    mode: 0644
 
 
     
