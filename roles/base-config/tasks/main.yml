@@ -6,7 +6,9 @@
 
 - name: enable yum repos
   copy:
-    src: files/project.repo
+    src: files/open_three-tier-app.repo
     dest: /etc/yum.repos.d/open_three-tier-app.repo
     mode: 0644
-    decrypt: yes
+
+
+    
