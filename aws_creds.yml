@@ -18,6 +18,11 @@
   - name: List key files
     shell: (cd /root/.ssh; find . -maxdepth 1 -type f -iname '*key.pem')| cut -d'/' -f2
     register: file_to_copy
+
+  - name: Read PEM file
+    set_fact:
+      local_priv_key: "{{ lookup('file', '/root/.ssh/{{file_to_copy.stdout}}') }}"
+
   - name: Tower Creds key file
     tower_credential:
       name: Creds for AWS instances
@@ -28,7 +33,8 @@
       tower_username: admin
       tower_password: r3dh4t1!
       tower_verify_ssl: no
-      ssh_key_data: "/root/.ssh/{{ file_to_copy.stdout }}"
+#      ssh_key_data: "/root/.ssh/{{ file_to_copy.stdout }}"
+      ssh_key_data: "{{local_priv_key}}"
       username: ec2-user
   - name: Update Prod Job template
     tower_job_template:
