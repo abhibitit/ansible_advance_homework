@@ -1,8 +1,12 @@
 ---
 
-- name: Playbook to build in-memory inventory from OSP Instance Facts
-  hosts: jumpbox
-  become: true
+- name: Playbook to operate on tower
+  hosts: localhost
+  become: yes
+  vars_files:
+    - roles/config-tower/vars/main.yml
 
-  roles:
-    - { role: osp_instance_data,  }
+  tasks:
+    - name: Create vault credentials for project.repo
+      command: |
+        tower-cli credential create --name="project-repo-cred" --organization "{{org_name}}" --inputs='{"vault_password":"passw0rd"}' --credential-type="Vault"

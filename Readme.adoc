@@ -55,6 +55,11 @@
 
 ==== Creating OSP server instances
 
+* Ensure ANSIBLE_CONFIG environment variable points to osp_ansible.cfg
+
+[source, text]
+export ANSIBLE_CONFIG=osp_ansible.cfg
+
 [source, text]
 ansible-playbook site-osp-instances.yml
 

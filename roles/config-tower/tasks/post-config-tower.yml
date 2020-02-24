@@ -27,6 +27,7 @@
     scm_url: "{{scm_url}}"
     scm_credential: "{{scm_credential_name}}"
     scm_branch: "{{scm_branch}}"
+    scm_update_on_launch: true
     state: present
 
 - name: Read openstack.pem
