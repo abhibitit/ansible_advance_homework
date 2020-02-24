@@ -6,7 +6,11 @@
     add_host:
        name: "workstation-{{OSP_GUID}}.rhpds.opentlc.com"
        group: workstation
-
+  - name: Copy cloud-user ssh key
+    copy:
+      src: /root/.ssh/openstack.pem
+      dest: /home/cloud-user/.ssh/
+      mode: 0400
 
 - hosts: workstation
   become: yes
