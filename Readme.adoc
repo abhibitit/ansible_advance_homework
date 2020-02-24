@@ -57,7 +57,7 @@
 
 * Ensure ANSIBLE_CONFIG environment variable points to osp_ansible.cfg
 
-[source, text]
+[source,text]
 export ANSIBLE_CONFIG=osp_ansible.cfg
 
 [source, text]
