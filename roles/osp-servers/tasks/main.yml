@@ -65,6 +65,7 @@
   copy:
     src: /root/.ssh/openstack.pem
     dest: /home/cloud-user/.ssh/
+    remote_src: yes
     mode: 0400
 
 - name: Wait for servers to be available
