@@ -4,6 +4,7 @@
 #
 
 - hosts: tag_AnsibleGroup_bastions
+  become: yes
   tasks:
     - name: Get bastion hostname
       set_fact:
@@ -20,6 +21,7 @@
 
 - hosts: tag_instance_filter_three_tier_app_rdurvas1_in_ibm_com
   gather_facts: false
+  become: yes
   tasks:
 
   - name: Check the instances status
