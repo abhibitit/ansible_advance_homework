@@ -1,14 +1,14 @@
 ---
 
-- name: Playbook to operate on tower
-  hosts: localhost
-  become: yes
-  vars_files:
-    - roles/config-tower/vars/main.yml
-
-  tasks:
-    - name: Print something
-      debug: msg="Hello"
+#- name: Playbook to operate on tower
+#  hosts: localhost
+#  become: yes
+#  vars_files:
+#    - roles/config-tower/vars/main.yml
+#
+#  tasks:
+#    - name: Print something
+#      debug: msg="Hello"
 #    - name: Create vault credentials for project.repo
 #      command: |
 #        tower-cli credential create --name="project-repo-cred" --organization "{{org_name}}" --inputs='{"vault_password":"passw0rd"}' --credential-type="Vault"
@@ -25,7 +25,6 @@
 
 - name: Playbook to check tag_AnsibleGroup_bastions
   hosts: localhost
-  become: yes
 
   tasks:
     - name: Print bastion name
