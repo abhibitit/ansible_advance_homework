@@ -21,7 +21,7 @@
 
   - name: Read PEM file
     set_fact:
-      local_priv_key: "{{ lookup('file', '/root/.ssh/{{file_to_copy.stdout}}') }}"
+      local_priv_key: "{{ lookup('file', '/home/ec2-user/.ssh/{{file_to_copy.stdout}}') }}"
 
   - name: Tower Creds key file
     tower_credential:
