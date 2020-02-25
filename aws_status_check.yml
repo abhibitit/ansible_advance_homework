@@ -13,7 +13,8 @@
       port: 22
       search_regex: OpenSSH
       timeout: 600
-    delegate_to: localhost
+#    delegate_to: localhost
+    delegate_to: "{{groups['tag_AnsibleGroup_bastions'][0]}}"
     with_items:
       - "{{ inventory_hostname }}"
         
