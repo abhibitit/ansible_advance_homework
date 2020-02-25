@@ -22,6 +22,7 @@
   - name: Read PEM file
     set_fact:
       local_priv_key: "{{ lookup('file', '/home/ec2-user/.ssh/{{file_to_copy.stdout}}') }}"
+    delegate_to: localhost
 
   - name: Tower Creds key file
     tower_credential:
