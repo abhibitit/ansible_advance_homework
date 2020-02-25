@@ -1,7 +1,15 @@
-- hosts: tag_AnsibleGroup_bastions
+---
+#
+# Playbook to create Tower credentials for Three Tier application deployment automation
+#
+
+- name: Prepare Tower credentials
+  hosts: tag_AnsibleGroup_bastions
   gather_facts: true
   become: true
+
   tasks:
+
   - name: Install required packages 
     yum: 
      name: "{{item}}"
@@ -11,18 +19,19 @@
       - python-pip 
       - python-devel 
       - gcc
+
   - name: Install tower-cli
     pip:
      name: ansible-tower-cli
      state: latest
+
   - name: List key files
     shell: (cd /root/.ssh; find . -maxdepth 1 -type f -iname '*key.pem')| cut -d'/' -f2
     register: file_to_copy
 
   - name: Read PEM file
-    set_fact:
-      local_priv_key: "{{ lookup('file', '/home/ec2-user/.ssh/{{file_to_copy.stdout}}') }}"
-    delegate_to: localhost
+    command: cat "/home/ec2-user/.ssh/{{file_to_copy.stdout}}"
+    register: key_content
 
   - name: Tower Creds key file
     tower_credential:
@@ -35,8 +44,9 @@
       tower_password: r3dh4t1!
       tower_verify_ssl: no
 #      ssh_key_data: "/root/.ssh/{{ file_to_copy.stdout }}"
-      ssh_key_data: "{{local_priv_key}}"
+      ssh_key_data: "{{key_content}}"
       username: ec2-user
+
   - name: Update Prod Job template
     tower_job_template:
       name: "3 tier app on Prod"
@@ -49,6 +59,7 @@
       job_type: run
       playbook: site-3tier-app.yml
       project: "Homework Assignment"
+
   - name: Update Prod Smoke Job template
     tower_job_template:
       name: "Smoke test Prod env"
