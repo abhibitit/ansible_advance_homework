@@ -12,6 +12,11 @@
     - name: Print bastion hostname
       debug:
         msg: "{{three_tier_app_host}}"
+    
+    - name: Register bastion hostname
+      command: "echo {{three_tier_app_host}}"
+      delegate_to: localhost
+      register: bastion_hostname
 
 - hosts: tag_instance_filter_three_tier_app_rdurvas1_in_ibm_com
   gather_facts: false
@@ -24,7 +29,7 @@
       search_regex: OpenSSH
       timeout: 600
 #    delegate_to: localhost
-    delegate_to: "{{three_tier_app_host}}"
+    delegate_to: "{{bastion_hostname}}"
     with_items:
       - "{{ inventory_hostname }}"
         
