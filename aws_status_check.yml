@@ -11,7 +11,8 @@
     register: hostnamectl_status
 
   - name: Print Hostname details
-    debug: var="{{hostnamtctl_status.stdout}}"
+    debug:
+      msg: "{{hostnamectl_status.stdout}}"
     
   - name: Check the instances status
     wait_for:
