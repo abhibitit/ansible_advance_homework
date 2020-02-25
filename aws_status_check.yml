@@ -10,7 +10,7 @@
     debug:
       msg: "{{item}}"
     with_items:
-      - "{{inventory_fqdn}}"
+      - "{{ansible_fqdn}}"
       - "{{ansible_user_id}}"
     
   - name: Check the instances status
