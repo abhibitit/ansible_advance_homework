@@ -3,22 +3,6 @@
 # Check status of EC2 instances
 #
 
-- hosts: tag_AnsibleGroup_bastions
-  become: yes
-  tasks:
-    - name: Get bastion hostname
-      set_fact:
-        three_tier_app_host: "{{ansible_fqdn}}"
-
-    - name: Print bastion hostname
-      debug:
-        msg: "{{three_tier_app_host}}"
-    
-    - name: Register bastion hostname
-      command: "echo {{three_tier_app_host}}"
-      delegate_to: localhost
-      register: bastion_hostname
-
 - hosts: tag_instance_filter_three_tier_app_rdurvas1_in_ibm_com
   gather_facts: false
   become: yes
@@ -30,8 +14,7 @@
       port: 22
       search_regex: OpenSSH
       timeout: 600
-#    delegate_to: localhost
-    delegate_to: "{{bastion_hostname}}"
+    delegate_to: localhost
     with_items:
       - "{{ inventory_hostname }}"
         
