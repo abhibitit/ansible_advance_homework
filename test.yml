@@ -20,3 +20,4 @@
     - name: Print local_priv_key content
       debug:
         msg: "{{local_priv_key}}"
+

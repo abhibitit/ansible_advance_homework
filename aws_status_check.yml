@@ -1,6 +1,18 @@
+---
+#
+# Check status of EC2 instances
+#
+
 - hosts: tag_instance_filter_three_tier_app_rdurvas1_in_ibm_com
   gather_facts: false
   tasks:
+  - name: Print hostname
+    debug:
+      msg: "{{item}}"
+    with_items:
+      - "{{inventory_fqdn}}"
+      - "{{ansible_user_id}}"
+    
   - name: Check the instances status
     wait_for:
       host: "{{ item }}"

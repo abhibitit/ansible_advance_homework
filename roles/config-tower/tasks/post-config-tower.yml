@@ -30,17 +30,13 @@
     scm_update_on_launch: true
     state: present
 
-- name: Read openstack.pem
+- name: Read OpenTLC key
   set_fact:
-    openstack_priv_key: "{{lookup('file','/root/.ssh/openstack.pem')}}"
-
-- name: Cleanup openstack.pem contents
-  set_fact:
-    os_priv_key: "{{openstack_priv_key | replace('# BEGIN ANSIBLE MANAGED BLOCK', '') | replace('# END ANSIBLE MANAGED BLOCK', '') }}"
+    opentlc_priv_key: "{{lookup('file','/root/secret.pem')}}"
 
 - name: Print openstack.pem contents
   debug:
-    msg: "{{os_priv_key}}"
+    msg: "{{opentlc_priv_key}}"
 
 - name: Machine Credentail to connect to workstation using openstack.pub
   tower_credential:
@@ -52,7 +48,7 @@
     tower_username: admin
     tower_password: r3dh4t1!
 #    ssh_key_data: "/root/.ssh/openstack.pem"
-    ssh_key_data: "{{os_priv_key}}"
+    ssh_key_data: "{{opentlc_priv_key}}"
     username: cloud-user
 
 - name: Create Inventory
@@ -83,7 +79,7 @@
     tower_password: r3dh4t1!
     tower_verify_ssl: no
 #    ssh_key_data: /root/.ssh/mykey.pem
-    ssh_key_data: "{{os_priv_key}}"
+    ssh_key_data: "{{opentlc_priv_key}}"
     username: "{{ opentlc_login }}"
 
 - name: Remove secret
