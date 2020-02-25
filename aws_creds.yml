@@ -30,7 +30,7 @@
     register: file_to_copy
 
   - name: Read PEM file
-    command: cat "/home/ec2-user/.ssh/{{file_to_copy.stdout}}"
+    command: cat "/root/.ssh/{{file_to_copy.stdout}}"
     register: key_content
 
   - name: Tower Creds key file
