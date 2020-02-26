@@ -30,8 +30,8 @@
     register: file_to_copy
 
   - name: Read PEM file
-    command: cat "/root/.ssh/{{file_to_copy.stdout}}"
-    register: key_content
+    set_fact:
+      key_content: "{{lookup('file','/root/.ssh/{{file_to_copy.stdout}})'}}"
 
   - name: Tower Creds key file
     tower_credential:
