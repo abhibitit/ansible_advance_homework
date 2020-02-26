@@ -9,7 +9,7 @@
   tasks:
     - name: Execute HTTP GET on frontend servers
       uri:
-        url: "http://{{item}}"
+        url: "http://{{inventory_hostname}}"
         method: GET
         return_content: yes
       register: webpage
