@@ -1,3 +1,7 @@
+---
+#
+# Playbook to deploy Three-tier application on RHOSP servers
+#
 - hosts: workstation
   gather_facts: true
   roles:

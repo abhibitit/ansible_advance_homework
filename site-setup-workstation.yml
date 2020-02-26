@@ -1,4 +1,7 @@
+---
+#
 # Playbook to setup workstation and create osp network, router, SG and ssh keypair
+#
 
 - hosts: localhost
   tasks:

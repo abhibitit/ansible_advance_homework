@@ -1,4 +1,7 @@
 ---
+#
+# Playbook to order OpenTLC Lab environment for Three-tier Application on AWS EC2
+#
 - hosts: workstation
   become: true
   gather_facts: false

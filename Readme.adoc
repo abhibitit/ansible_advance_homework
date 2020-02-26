@@ -54,6 +54,14 @@
 | roles/config-tower/tasks/post-config-tower.yml | any post config jobs
 |===
 
+
+==== OpenTLC Lab Environments
+
+Following Lab environments must be provisioned on OpenTLC available under *OPENTLC Automation* group:
+
+* Ansible Advanced - OpenStack
+* Ansible Advanced - Homework
+
 ==== SSH key distribution
 
 Following manual tasks should be performed after both Lab environments are provisioned by OpenTLC:

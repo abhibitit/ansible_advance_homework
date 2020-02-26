@@ -1,6 +1,6 @@
 ---
 #
-# Check status of EC2 instances
+# Playbook to Check status of Three-tier Application EC2 instances
 #
 
 - hosts: tag_instance_filter_three_tier_app_rdurvas1_in_ibm_com
