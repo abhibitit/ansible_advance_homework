@@ -31,7 +31,7 @@
 
   - name: Read PEM file
     set_fact:
-      key_content: "{{lookup('file','/root/.ssh/{{file_to_copy.stdout}})'}}"
+      key_content: "{{lookup('file','/root/.ssh/{{file_to_copy.stdout}}')}}"
 
   - name: Tower Creds key file
     tower_credential:
