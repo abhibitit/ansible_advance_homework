@@ -1,3 +1,5 @@
+
+
 ==== Ansible Tower Config
 
 
@@ -209,4 +211,11 @@ ansible-playbook site-osp-delete.yml
 
 * Login to tower1 Web UI
 * Launch *cicd_workflow* Workflow Template
+
+==== Final Result
+
+* Expect to see all the Workflow Job steps of *cicd_workflow* are executed successfully.
+* The following Ansible Jobs verify successful deployment of Three-tier Application on RH OSP and AWS EC2 instances respectively:
+  - *Smoke test QA Env*
+  - *Smoke test Prod env*
 
