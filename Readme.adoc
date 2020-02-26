@@ -52,6 +52,70 @@
 | roles/config-tower/tasks/post-config-tower.yml | any post config jobs
 |===
 
+==== SSH key distribution
+
+Following manual tasks should be performed after both Lab environments are provisioned by OpenTLC:
+
+* Copy OpenTLC private key to OSP Workstation /root/.ssh
+* Copy OpenTLC public key content to OSP Workstation /root/.ssh/authorized_keys
+* Copy OpenTLC private key to Homework Bastion /root/.ssh
+* Copy your GitHub private key to Homework Bastion /root/.ssh
+
+==== Verify connectivity between Homework Bastion and OSP Workstation
+
+[source, text]
+
+ssh -i ~/.ssh/rd_opentlc_local_id_rsa workstation-aa3a.rhpds.opentlc.com
+
+
+==== Prepare the Homework Project
+
+Follow these manual steps to prepare Homework project before execution:
+
+* Create a workspace directory (For Example: /root/homework)
+* Clone your Homework GitHub repo to Homework Bastion in workspace directory. (Note: This is the repo forked and developed by you)
+* Update /root/homework/ansible_advance_homework/ssh.cfg with correct OSP Workstation Hostname
+* Add environment variables to /root/.bashrc
+
+[source, text]
+
+# Homework env variables
+export OSP_GUID=aa3a
+export TOWER_GUID=b996
+export OPENTLC_LOGIN=rdurvas1-in.ibm.com
+export GITHUB_REPO=https://github.com/rajdurvasula/ansible_advance_homework
+export JQ_REPO_BASE=http://www.opentlc.com/download/ansible_bootcamp
+export REGION=us-east-1
+export RH_MAIL_ID=rdurvas1@in.ibm.com
+
+* source /root/.bashrc for future usage
+
+==== Setup OSP resources and Tower Isolated Node on OSP Workstation
+
+Follow these manual steps to configure OSP resources
+
+* Execute the provided script *setup_workstation.sh*
+  - The script executes Ansible Playbook *site-setup-workstation.yml*
+* Verify connectivity from Homework Bastion to OSP Workstation with "cloud-user" user and *openstack.pem* key
+
+[source, text]
+
+ssh -i ~/.ssh/openstack.pem cloud-user@workstation-aa3a.rhpds.opentlc.com
+
+* Verify Instances Group from Tower web UI
+  - Open https://tower1.{{TOWER_GUID}}.example.opentlc.com in web browser
+  - Navigate to *Instances Group*
+  - Locate *osp* Instance Group
+  - Click *INSTANCES* link under *osp* entry to find Workstation hostname
+
+==== Configure Ansible Tower
+
+Follow these steps to configure Ansible Tower
+
+* Execute the provided script *config_tower.sh*
+  - The script executes Ansible Playbook *site-config-tower.yml*
+  - *NOTE:* This script depends on Environment Variables that were set in Homework Bastion "/root/.bashrc"
+  - At the prompt, provide your Red Hat OpenTLC password
 
 ==== Creating OSP server instances
 

@@ -42,7 +42,12 @@
   debug:
     msg: "{{os_priv_key}}"
 
-- name: Machine Credentail to connect to workstation using openstack.pub
+- name: Read OpenTLC key
+  set_fact:
+    opentlc_priv_key: "{{lookup('file','/root/.ssh/rd_opentlc_local_id_rsa')}}"
+
+#- name: Machine Credentail to connect to workstation using openstack.pub
+- name: Machine Credential to connect to workstation using openstack.pem
   tower_credential:
     name: Connect_to_workstation
     organization: Default
