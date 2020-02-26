@@ -1,5 +1,24 @@
-- hosts: frontends
+---
+#
+# Playbook for smoke testing Three-tier App on AWS EC2 instances
+#
+- name: Playbook for smoke testing Three-tier App on AWS EC2 instances
+  hosts: frontends
   gather_facts: false
+
   tasks:
-  - name: Use Uri module for wrting smoke test.
-  - name: Fail if 'Ansible has done its job' is not in the page content
+    - name: Execute HTTP GET on frontend servers
+      uri:
+        url: "http://{{item}}"
+        method: GET
+        return_content: yes
+      register: webpage
+
+    - name: Print webpage
+      debug:
+        msg: "{{webpage}}"
+
+    - name: Fail if 'Ansible has done its job' is not in the page content
+      fail:
+      when:
+        - "'Ansible has done its job' not in webpage.results.content"
