@@ -63,7 +63,7 @@ Following manual tasks should be performed after both Lab environments are provi
 
 ==== Verify connectivity between Homework Bastion and OSP Workstation
 
-[source, text]
+[source,text]
 
 ssh -i ~/.ssh/rd_opentlc_local_id_rsa workstation-aa3a.rhpds.opentlc.com
 
@@ -77,7 +77,7 @@ Follow these manual steps to prepare Homework project before execution:
 * Update /root/homework/ansible_advance_homework/ssh.cfg with correct OSP Workstation Hostname
 * Add environment variables to /root/.bashrc
 
-[source, text]
+[source,text]
 
 # Homework env variables
 export OSP_GUID=aa3a
@@ -98,7 +98,7 @@ Follow these manual steps to configure OSP resources
   - The script executes Ansible Playbook *site-setup-workstation.yml*
 * Verify connectivity from Homework Bastion to OSP Workstation with "cloud-user" user and *openstack.pem* key
 
-[source, text]
+[source,text]
 
 ssh -i ~/.ssh/openstack.pem cloud-user@workstation-aa3a.rhpds.opentlc.com
 
@@ -123,14 +123,14 @@ Follow these steps to provision QA environment on OSP instance
 
 * Execute Ansible Playbook *site-osp-instances.yml*
 
-[source, text]
+[source,text]
 ansible-playbook site-osp-instances.yml
 
 ==== Deploy 3-Tier application on OSP server instances
 
 * Execute Ansible Playbook *site-3tier-app.yml*
 
-[source, text]
+[source,text]
 
 ansible-playbook site-3tier-app.yml
 
@@ -138,7 +138,7 @@ ansible-playbook site-3tier-app.yml
 
 * Get the "frontend" server IP address
 
-[source, text]
+[source,text]
 
 openstack server list
 # Result:
@@ -153,7 +153,7 @@ openstack server list
 
 * Issue curl command on "frontend" ip address from RHOSP workstation node.
 
-[source, text]
+[source,text]
 curl http://10.10.10.3
 
 [source, html]
@@ -172,7 +172,7 @@ curl http://10.10.10.3
 
 * Again, issue curl command on "frontend" ip address from RHOSP workstation node.
 
-[source, text]
+[source,text]
 curl http://10.10.10.3
 
 [source, html]
@@ -193,7 +193,7 @@ curl http://10.10.10.3
 
 * Execute Ansible Playbook *site-smoke-osp.yml*
 
-[source, text]
+[source,text]
 
 ansible-playbook site-smoke-osp.yml
 
@@ -201,7 +201,7 @@ ansible-playbook site-smoke-osp.yml
 
 * Execute ansible playbook *site-osp-delete.yml*
 
-[source, text]
+[source,text]
 
 ansible-playbook site-osp-delete.yml
 
