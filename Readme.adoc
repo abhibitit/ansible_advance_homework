@@ -117,28 +117,29 @@ Follow these steps to configure Ansible Tower
   - *NOTE:* This script depends on Environment Variables that were set in Homework Bastion "/root/.bashrc"
   - At the prompt, provide your Red Hat OpenTLC password
 
-==== Creating OSP server instances
+==== Provision QA Environment
 
-* Ensure ANSIBLE_CONFIG environment variable points to osp_ansible.cfg
+Follow these steps to provision QA environment on OSP instance
 
-[source,text]
-export ANSIBLE_CONFIG=osp_ansible.cfg
+* Execute Ansible Playbook *site-osp-instances.yml*
 
 [source, text]
 ansible-playbook site-osp-instances.yml
 
-==== Creating 3-Tier application on OSP server instances
+==== Deploy 3-Tier application on OSP server instances
+
+* Execute Ansible Playbook *site-3tier-app.yml*
 
 [source, text]
-ansible-playbook site-3tier-app.yml --ask-vault-pass
 
-password: passw0rd
+ansible-playbook site-3tier-app.yml
 
-==== Verify 3-Tier application
+==== Verify 3-Tier application on QA environment
 
 * Get the "frontend" server IP address
 
 [source, text]
+
 openstack server list
 # Result:
 +--------------------------------------+----------+--------+--------------------------------------+------------+
@@ -188,4 +189,24 @@ curl http://10.10.10.3
 </body>
 </html>
 
+==== Verify 3-Tier application on QA environment using Ansible Playbook
+
+* Execute Ansible Playbook *site-smoke-osp.yml*
+
+[source, text]
+
+ansible-playbook site-smoke-osp.yml
+
+==== Test Ansibe Playbook to delete 3-Tier application server instances in QA environment
+
+* Execute ansible playbook *site-osp-delete.yml*
+
+[source, text]
+
+ansible-playbook site-osp-delete.yml
+
+==== Ansible Tower Workflow Execution
+
+* Login to tower1 Web UI
+* Launch *cicd_workflow* Workflow Template
 
