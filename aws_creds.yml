@@ -30,8 +30,12 @@
     register: file_to_copy
 
   - name: Read PEM file
-    set_fact:
-      key_content: "{{lookup('file','/root/.ssh/{{file_to_copy.stdout}}')}}"
+    shell: cat "/root/.ssh/{{file_to_copy.stdout}}"
+    args:
+      executable: /bin/bash
+    become: true
+    become_method: sudo
+    register: key_content
 
   - name: Tower Creds key file
     tower_credential:
@@ -44,7 +48,7 @@
       tower_password: r3dh4t1!
       tower_verify_ssl: no
 #      ssh_key_data: "/root/.ssh/{{ file_to_copy.stdout }}"
-      ssh_key_data: "{{key_content}}"
+      ssh_key_data: "{{key_content.stdout}}"
       username: ec2-user
 
   - name: Update Prod Job template
